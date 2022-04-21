@@ -88,9 +88,9 @@ static Key keys[] = {
 	{ SUPER,                       XK_F11,             spawn,          SHCMD(TERMINAL" -e start-torrent") },
 
     //media
-	{ SUPER,                       XK_minus,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -2500") },
-	{ SUPER,                       XK_equal,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +2500") },
-	{ SUPER|ShiftMask,             XK_equal,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
+	{ SUPER,                       XK_minus,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -2500 && pkill -RTMIN+10 dwmblocks") },
+	{ SUPER,                       XK_equal,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +2500 && pkill -RTMIN+10 dwmblocks") },
+	{ SUPER|ShiftMask,             XK_equal,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+10 dwmblocks") },
 	{ SUPER,                       XK_p,               spawn,          SHCMD("mpc toggle") },
 	{ SUPER,                       XK_comma,           spawn,          SHCMD("mpc prev") },
 	{ SUPER,                       XK_period,          spawn,          SHCMD("mpc next") },
