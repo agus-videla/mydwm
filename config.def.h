@@ -5,9 +5,14 @@
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=10" };
+static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systrayonleft = 0;   	/* 0: systray in the right corner, >0: systray on left of status text */
+static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+static const int showsystray        = 1;     /* 0 means no systray */
+static const int showbar            = 1;     /* 0 means no bar */
+static const int topbar             = 1;     /* 0 means bottom bar */
+static const char *fonts[]          = { "JetBrainsMono:size=10", "Symbols Nerd Font" };
 static const char dmenufont[]       = "monospace:size=10";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -86,9 +91,9 @@ static Key keys[] = {
 	{ MODKEYL,                       XK_F11,             spawn,          SHCMD(TERMINAL" -e start-torrent") },
 
     //media
-	{ MODKEYL,                       XK_minus,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -2500") },
-	{ MODKEYL,                       XK_equal,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +2500") },
-	{ MODKEYL|ShiftMask,             XK_equal,            spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle") },
+	{ MODKEYL,                       XK_minus,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -2500 && pkill -RTMIN+10 dwmblocks") },
+	{ MODKEYL,                       XK_equal,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +2500 && pkill -RTMIN+10 dwmblocks") },
+	{ MODKEYL|ShiftMask,             XK_equal,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+10 dwmblocks") },
 	{ MODKEYL,                       XK_p,               spawn,          SHCMD("playerctl -p mpd play-pause") },
 
     // Client & Tag Manipulation
@@ -129,8 +134,8 @@ static Key keys[] = {
 /* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
 	/* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+	{ ClkTagBar,            MODKEYL,        Button1,        tag,            {0} },
+	{ ClkTagBar,            MODKEYL,        Button3,        toggletag,      {0} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEYL,        Button1,        movemouse,      {0} },
