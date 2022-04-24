@@ -140,6 +140,7 @@ static Key keys[] = {
 	{ SUPER,                       XK_l,               setmfact,       {.f = +0.05} },
 	{ SUPER|ShiftMask,             XK_j,               movestack,      {.i = +1 } },
 	{ SUPER|ShiftMask,             XK_k,               movestack,      {.i = -1 } },
+	{ SUPER,                       XK_s,               togglesticky,   {0} },
 	{ SUPER,                       XK_Tab,             view,           {0} },
 	{ SUPER,                       XK_q,               killclient,     {0} },
 	{ SUPER,                       XK_t,               setlayout,      {.v = &layouts[0]} },
