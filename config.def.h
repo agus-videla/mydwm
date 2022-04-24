@@ -1,5 +1,5 @@
 /* See LICENSE file for copyright and license details. */
-#define TERMINAL "alacritty"
+#define TERMINAL "st"
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
@@ -12,32 +12,34 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;     /* 0 means no bar */
 static const int topbar             = 1;     /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono:size=10", "Symbols Nerd Font" };
-static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#1A1D1F";
+static const char *fonts[]          = { "JetBrainsMono:size=10", "Symbols Nerd Font:size=9" };
+static const char dmenufont[]       = "monospace:size=10"; static const char col_gray1[]       = "#1A1D1F";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#1B5C35";
+static const char col_green[]        ="#1B5C35";
 static const char col_orange[]      = "#AC741C";
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_orange  },
+	[SchemeSel]  = { col_gray4, col_green,  col_orange  },
 };
 
+/* scratchpads */
 typedef struct {
 	const char *name;
 	const void *cmd;
 } Sp;
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x40",  NULL };
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "60x20",  NULL };
+const char *calc1[] = {"speedcrunch", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
+	{"SpeedCrunch", calc1},
 };
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "", "爵", "", "" };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -46,10 +48,13 @@ static const Rule rules[] = {
 	 */
 	/* class            instance        title           tags mask        isfloating  isterminal   noswallow monitor */
 	{ "Gimp",           NULL,           NULL,           0,               1,          0,           0,        -1 },
-	{ "Firefox",        NULL,           NULL,           1 << 8,          0,          0,          -1,        -1 },
-	{ "Alacritty",      NULL,           NULL,           0,               0,          1,           0,        -1 },
+	{ "qutebrowser",    NULL,           NULL,           2,               0,          0,          -1,        -1 },
+	{ TERMINAL,         NULL,           NULL,           0,               0,          1,           0,        -1 },
+	{ "Alacritty",      NULL,           "ncmpcpp",      4,               0,          1,           0,        -1 },
+	{ "Pcmanfm",        NULL,           NULL,           8,               0,          1,           0,        -1 },
 	{ NULL,             NULL,           "Event Tester", 0,               0,          0,           1,        -1 }, /* xev */
 	{ NULL,		        "spterm",		NULL,		    SPTAG(0),		 1,			 1,           0,        -1 },
+	{ NULL,		        "SpeedCrunch",	NULL,		    SPTAG(1),		 0,			 0,           0,        -1 },
 };
 
 /* layout(s) */
@@ -81,9 +86,10 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[]    = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[]    = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_green, "-sf", col_gray4, NULL };
 static const char *termcmd[]     = { TERMINAL, NULL };
 
+#include <X11/XF86keysym.h>
 #include "movestack.c"
 static Key keys[] = {
     // Open Programs
@@ -93,9 +99,9 @@ static Key keys[] = {
 	{ SUPER,                       XK_w,               spawn,          SHCMD("$BROWSER") },
 	{ SUPER|ShiftMask,             XK_w,               spawn,          SHCMD("d_search") },
 	{ CONTEXT,                     XK_c,               spawn,          SHCMD("YACReaderLibrary") },
-	{ SUPER,                       XK_c,               spawn,          SHCMD("speedcrunch") },
+	//{ SUPER,                       XK_c,               spawn,          SHCMD("speedcrunch") },
 	{ CONTEXT,                     XK_d,               spawn,          SHCMD("soulseekqt") },
-	{ SUPER,                       XK_m,               spawn,          SHCMD(TERMINAL" -e ncmpcpp") },
+	{ SUPER,                       XK_m,               spawn,          SHCMD("alacritty -t ncmpcpp -e ncmpcpp") },
 	{ SUPER,                       XK_f,               spawn,          SHCMD("pcmanfm") },
 	{ SUPER,                       XK_apostrophe,      spawn,          SHCMD("d_emoji") },
 
@@ -108,6 +114,9 @@ static Key keys[] = {
 	{ SUPER,                       XK_minus,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -2500 && pkill -RTMIN+10 dwmblocks") },
 	{ SUPER,                       XK_equal,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +2500 && pkill -RTMIN+10 dwmblocks") },
 	{ SUPER|ShiftMask,             XK_equal,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+10 dwmblocks") },
+	{ 0,            XF86XK_AudioLowerVolume,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -2500 && pkill -RTMIN+10 dwmblocks") },
+	{ 0,            XF86XK_AudioLowerVolume,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +2500 && pkill -RTMIN+10 dwmblocks") },
+	{ 0,                   XF86XK_AudioMute,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+10 dwmblocks") },
 	{ SUPER,                       XK_p,               spawn,          SHCMD("mpc toggle") },
 	{ SUPER,                       XK_comma,           spawn,          SHCMD("mpc prev") },
 	{ SUPER,                       XK_period,          spawn,          SHCMD("mpc next") },
@@ -115,9 +124,11 @@ static Key keys[] = {
     //brightness
 	{ SUPER,                       XK_bracketleft,     spawn,          SHCMD("light -U 5") },
 	{ SUPER,                       XK_bracketright,    spawn,          SHCMD("light -A 5") },
+	{ 0,                    XF86XK_MonBrightnessUp,    spawn,          SHCMD("light -A 5") },
+	{ 0,                  XF86XK_MonBrightnessDown,    spawn,          SHCMD("light -U 5") },
 
-	{ SUPER|ShiftMask,             XK_Return,  	       togglescratch,  {.ui = 0 } },
-	{ SUPER|ControlMask,             XK_Return,  	       togglescratch,  {.ui = 1 } },
+	{ SUPER|ShiftMask,               XK_Return,  	   togglescratch,  {.ui = 0 } },
+	{ SUPER,                         XK_c,  	       togglescratch,  {.ui = 1 } },
 
     // Client & Tag Manipulation
 	{ SUPER,                       XK_b,               togglebar,      {0} },
@@ -132,7 +143,7 @@ static Key keys[] = {
 	{ SUPER,                       XK_Tab,             view,           {0} },
 	{ SUPER,                       XK_q,               killclient,     {0} },
 	{ SUPER,                       XK_t,               setlayout,      {.v = &layouts[0]} },
-	{ SUPER,                       XK_f,               setlayout,      {.v = &layouts[1]} },
+	{ SUPER,                       XK_y,               setlayout,      {.v = &layouts[1]} },
 	{ SUPER,                       XK_u,               setlayout,      {.v = &layouts[2]} },
 	{ SUPER,                       XK_space,           zoom,           {0} },
 	{ SUPER|ShiftMask,             XK_space,           togglefloating, {0} },
@@ -147,9 +158,6 @@ static Key keys[] = {
 	TAGKEYS(                       XK_3,                               2)
 	TAGKEYS(                       XK_4,                               3)
 	TAGKEYS(                       XK_5,                               4)
-	TAGKEYS(                       XK_6,                               5) TAGKEYS(XK_7,6)
-	TAGKEYS(                       XK_8,                               7)
-	TAGKEYS(                       XK_9,                               8)
 	{ SUPER|ShiftMask,             XK_q,               quit,           {1} },
 };
 
