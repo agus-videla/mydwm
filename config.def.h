@@ -26,6 +26,16 @@ static const char *colors[][3]      = {
 	[SchemeSel]  = { col_gray4, col_cyan,  col_orange  },
 };
 
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x40",  NULL };
+static Sp scratchpads[] = {
+	/* name          cmd  */
+	{"spterm",      spcmd1},
+};
+
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
@@ -34,11 +44,12 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class            instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "Gimp",           NULL,     NULL,           0,         1,          0,           0,        -1 },
-	{ "Firefox",        NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
-	{ "Alacritty",      NULL,     NULL,           0,         0,          1,           0,        -1 },
-	{ NULL,             NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
+	/* class            instance        title           tags mask        isfloating  isterminal   noswallow monitor */
+	{ "Gimp",           NULL,           NULL,           0,               1,          0,           0,        -1 },
+	{ "Firefox",        NULL,           NULL,           1 << 8,          0,          0,          -1,        -1 },
+	{ "Alacritty",      NULL,           NULL,           0,               0,          1,           0,        -1 },
+	{ NULL,             NULL,           "Event Tester", 0,               0,          0,           1,        -1 }, /* xev */
+	{ NULL,		        "spterm",		NULL,		    SPTAG(0),		 1,			 1,           0,        -1 },
 };
 
 /* layout(s) */
@@ -105,6 +116,8 @@ static Key keys[] = {
 	{ SUPER,                       XK_bracketleft,     spawn,          SHCMD("light -U 5") },
 	{ SUPER,                       XK_bracketright,    spawn,          SHCMD("light -A 5") },
 
+	{ SUPER|ShiftMask,             XK_Return,  	       togglescratch,  {.ui = 0 } },
+	{ SUPER|ControlMask,             XK_Return,  	       togglescratch,  {.ui = 1 } },
 
     // Client & Tag Manipulation
 	{ SUPER,                       XK_b,               togglebar,      {0} },
