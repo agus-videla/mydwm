@@ -1,5 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 #define TERMINAL "st"
+#define TERMCLASS "St"
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
@@ -12,7 +13,7 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;     /* 0 means no systray */
 static const int showbar            = 1;     /* 0 means no bar */
 static const int topbar             = 1;     /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono:size=10", "Symbols Nerd Font:size=9" };
+static const char *fonts[]          = { "JetBrainsMono:size=10", "Symbols Nerd Font:size=9", "Noto Color Emoji:size=9" };
 static const char dmenufont[]       = "monospace:size=10"; 
 static const char col_gray1[]       = "#1A1D1F";
 static const char col_gray2[]       = "#444444";
@@ -50,10 +51,10 @@ static const Rule rules[] = {
 	/* class            instance        title           tags mask        isfloating  isterminal   noswallow monitor */
 	{ "Gimp",           NULL,           NULL,           0,               1,          0,           0,        -1 },
 	{ "qutebrowser",    NULL,           NULL,           2,               0,          0,          -1,        -1 },
-	{ TERMINAL,         NULL,           NULL,           0,               0,          1,           0,        -1 },
-	{ TERMINAL,         NULL,           "ncmpcpp",      4,               0,          1,           0,        -1 },
+	{ TERMCLASS,        NULL,           NULL,           0,               0,          1,           0,        -1 },
+	{ TERMCLASS,        NULL,           "ncmpcpp",      4,               0,          1,           0,        -1 },
 	{ "Pcmanfm",        NULL,           NULL,           8,               0,          0,           0,        -1 },
-	{ "zoom",           NULL,           NULL,           0,               1,          0,           1,        -1 }, /* xev */
+	{ NULL,             NULL,           "Event Tester", 0,               1,          0,           1,        -1 }, /* xev */
 	{ NULL,		        "spterm",		NULL,		    SPTAG(0),		 1,			 1,           0,        -1 },
 	{ NULL,		        "SpeedCrunch",	NULL,		    SPTAG(1),		 0,			 0,           0,        -1 },
 };
@@ -103,13 +104,17 @@ static Key keys[] = {
 	//{ SUPER,                       XK_c,               spawn,          SHCMD("speedcrunch") },
 	{ SUPER,                       XK_m,               spawn,          SHCMD(TERMINAL" -t ncmpcpp -e ncmpcpp") },
 	{ SUPER|ShiftMask,             XK_m,               spawn,          SHCMD("soulseekqt") },
+	{ SUPER,                       XK_o,               spawn,          SHCMD("obsidian") },
 	{ SUPER,                       XK_f,               spawn,          SHCMD("pcmanfm") },
 	{ SUPER,                       XK_apostrophe,      spawn,          SHCMD("d_emoji") },
+	{ SUPER,                       XK_apostrophe,      spawn,          SHCMD("d_emoji") },
+	{ SUPER,                       XK_n,               spawn,          SHCMD("note-capture") },
 
 	{ SUPER,                       XK_F2,              spawn,          SHCMD("d_edit") },
 	{ SUPER,                       XK_F3,              spawn,          SHCMD("d_rbw") },
 	{ SUPER,                       XK_F10,             spawn,          SHCMD(TERMINAL" -e pulsemixer") },
 	{ SUPER,                       XK_F11,             spawn,          SHCMD(TERMINAL" -e start-torrent") },
+	{ SUPER,                       XK_Print,           spawn,          SHCMD("d_scrot") },
 
     //media
 	{ SUPER,                       XK_minus,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -2500 && pkill -RTMIN+10 dwmblocks") },
@@ -119,6 +124,7 @@ static Key keys[] = {
 	{ 0,            XF86XK_AudioRaiseVolume,           spawn,          SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +2500 && pkill -RTMIN+10 dwmblocks") },
 	{ 0,                   XF86XK_AudioMute,           spawn,          SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle && pkill -RTMIN+10 dwmblocks") },
 	{ SUPER,                       XK_p,               spawn,          SHCMD("mpc toggle") },
+	{ SUPER|ShiftMask,             XK_p,               spawn,          SHCMD("mpc stop") },
 	{ SUPER,                       XK_comma,           spawn,          SHCMD("mpc prev") },
 	{ SUPER,                       XK_period,          spawn,          SHCMD("mpc next") },
 
