@@ -107,7 +107,6 @@ static Key keys[] = {
 	{ SUPER,                       XK_o,               spawn,          SHCMD("obsidian") },
 	{ CONTEXT,                     XK_f,               spawn,          SHCMD("pcmanfm") },
 	{ SUPER,                       XK_apostrophe,      spawn,          SHCMD("d_emoji") },
-	{ SUPER,                       XK_apostrophe,      spawn,          SHCMD("d_emoji") },
 	{ SUPER,                       XK_n,               spawn,          SHCMD("note-capture") },
 
 	{ SUPER,                       XK_F2,              spawn,          SHCMD("d_edit") },
@@ -129,10 +128,10 @@ static Key keys[] = {
 	{ SUPER,                       XK_period,          spawn,          SHCMD("mpc next") },
 
     //brightness
-	{ SUPER,                       XK_bracketleft,     spawn,          SHCMD("light -U 5") },
-	{ SUPER,                       XK_bracketright,    spawn,          SHCMD("light -A 5") },
-	{ 0,                    XF86XK_MonBrightnessUp,    spawn,          SHCMD("light -A 5") },
-	{ 0,                  XF86XK_MonBrightnessDown,    spawn,          SHCMD("light -U 5") },
+	{ SUPER,                       XK_bracketleft,     spawn,          SHCMD("light -U 5 && pkill -RTMIN+13 dwmblocks") },
+	{ SUPER,                       XK_bracketright,    spawn,          SHCMD("light -A 5 && pkill -RTMIN+13 dwmblocks") },
+	{ 0,                    XF86XK_MonBrightnessUp,    spawn,          SHCMD("light -A 5 && pkill -RTMIN+13 dwmblocks") },
+	{ 0,                  XF86XK_MonBrightnessDown,    spawn,          SHCMD("light -U 5 && pkill -RTMIN+13 dwmblocks") },
 
 	{ SUPER|ShiftMask,               XK_Return,  	   togglescratch,  {.ui = 0 } },
 	{ SUPER,                         XK_c,  	       togglescratch,  {.ui = 1 } },
@@ -166,7 +165,6 @@ static Key keys[] = {
 	TAGKEYS(                       XK_2,                               1)
 	TAGKEYS(                       XK_3,                               2)
 	TAGKEYS(                       XK_4,                               3)
-	TAGKEYS(                       XK_5,                               4)
 	{ SUPER|ShiftMask,             XK_q,               quit,           {1} },
 };
 
