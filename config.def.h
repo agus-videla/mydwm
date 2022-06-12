@@ -54,6 +54,7 @@ static const Rule rules[] = {
 	{ TERMCLASS,        NULL,           NULL,           0,               0,          1,           0,        -1 },
 	{ TERMCLASS,        NULL,           "ncmpcpp",      4,               0,          1,           0,        -1 },
 	{ "Pcmanfm",        NULL,           NULL,           8,               0,          0,           0,        -1 },
+	{ "Zoom",           NULL,           NULL,           0,               1,          0,           0,        -1 },
 	{ NULL,             NULL,           "Event Tester", 0,               1,          0,           1,        -1 }, /* xev */
 	{ NULL,		        "spterm",		NULL,		    SPTAG(0),		 1,			 1,           0,        -1 },
 	{ NULL,		        "SpeedCrunch",	NULL,		    SPTAG(1),		 0,			 0,           0,        -1 },
@@ -101,7 +102,7 @@ static Key keys[] = {
 	{ SUPER,                       XK_w,               spawn,          SHCMD("$BROWSER") },
 	{ SUPER|ShiftMask,             XK_w,               spawn,          SHCMD("d_search") },
 	{ CONTEXT,                     XK_c,               spawn,          SHCMD("YACReaderLibrary") },
-	//{ SUPER,                       XK_c,               spawn,          SHCMD("speedcrunch") },
+	//{ SUPER,                     XK_c,               spawn,          SHCMD("speedcrunch") },
 	{ SUPER,                       XK_m,               spawn,          SHCMD(TERMINAL" -t ncmpcpp -e ncmpcpp") },
 	{ SUPER|ShiftMask,             XK_m,               spawn,          SHCMD("soulseekqt") },
 	{ SUPER,                       XK_o,               spawn,          SHCMD("obsidian") },
