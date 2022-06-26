@@ -55,6 +55,7 @@ static const Rule rules[] = {
 	{ TERMCLASS,        NULL,           "ncmpcpp",      4,               0,          1,           0,        -1 },
 	{ "Pcmanfm",        NULL,           NULL,           8,               0,          0,           0,        -1 },
 	{ "Zoom",           NULL,           NULL,           0,               1,          0,           0,        -1 },
+	{ "PacketTracer",   NULL,           NULL,           0,               1,          0,           0,        -1 },
 	{ NULL,             NULL,           "Event Tester", 0,               1,          0,           1,        -1 }, /* xev */
 	{ NULL,		        "spterm",		NULL,		    SPTAG(0),		 1,			 1,           0,        -1 },
 	{ NULL,		        "SpeedCrunch",	NULL,		    SPTAG(1),		 0,			 0,           0,        -1 },
@@ -71,6 +72,7 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+	{ "[D]",      deck },
 };
 
 /* key definitions */
@@ -152,7 +154,8 @@ static Key keys[] = {
 	{ SUPER,                       XK_q,               killclient,     {0} },
 	{ SUPER,                       XK_t,               setlayout,      {.v = &layouts[0]} },
 	{ SUPER,                       XK_y,               setlayout,      {.v = &layouts[1]} },
-	{ SUPER,                       XK_u,               setlayout,      {.v = &layouts[2]} },
+	{ SUPER|ShiftMask,             XK_u,               setlayout,      {.v = &layouts[2]} },
+	{ SUPER,                       XK_u,               setlayout,      {.v = &layouts[3]} },
 	{ SUPER,                       XK_f,               togglefullscr,  {0} },
 	{ SUPER,                       XK_space,           zoom,           {0} },
 	{ SUPER|ShiftMask,             XK_space,           togglefloating, {0} },
