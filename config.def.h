@@ -54,7 +54,7 @@ static const Rule rules[] = {
 	{ TERMCLASS,        NULL,           NULL,           0,               0,          1,           0,        -1 },
 	{ TERMCLASS,        NULL,           "ncmpcpp",      4,               0,          1,           0,        -1 },
 	{ "Pcmanfm",        NULL,           NULL,           8,               0,          0,           0,        -1 },
-	{ "Zoom",           NULL,           NULL,           0,               1,          0,           0,        -1 },
+	{ "zoom",           NULL,           NULL,           0,               1,          0,           0,        -1 },
 	{ "PacketTracer",   NULL,           NULL,           0,               1,          0,           0,        -1 },
 	{ NULL,             NULL,           "Event Tester", 0,               1,          0,           1,        -1 }, /* xev */
 	{ NULL,		        "spterm",		NULL,		    SPTAG(0),		 1,			 1,           0,        -1 },
